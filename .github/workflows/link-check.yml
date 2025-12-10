@@ -1,0 +1,63 @@
+name: Link Check
+
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+
+      - name: Check all markdown files
+        run: |
+          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | \
+          xargs -I {} sh -c 'echo "Checking {}" && markdown-link-check {} --config .github/link-check-config.json --verbose'
+
+      - name: Generate link report
+        if: failure()
+        run: |
+          echo "# Link Check Report" > link-report.md
+          echo "Generated on: $(date)" >> link-report.md
+          echo "" >> link-report.md
+          echo "## Broken Links Found" >> link-report.md
+          echo "Please review the workflow logs for specific broken links." >> link-report.md
+
+      - name: Upload link report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check-report
+          path: link-report.md
+          retention-days: 30
+
+  check-external-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check ROS 2 documentation links
+        run: |
+          curl -f -s -o /dev/null -w "%{http_code}" https://docs.ros.org/en/rolling/ || echo "ROS 2 docs not accessible"
+
+      - name: Check Gazebo documentation links
+        run: |
+          curl -f -s -o /dev/null -w "%{http_code}" https://gazebosim.org/docs || echo "Gazebo docs not accessible"
+
+      - name: Check OpenCV documentation links
+        run: |
+          curl -f -s -o /dev/null -w "%{http_code}" https://docs.opencv.org/ || echo "OpenCV docs not accessible"
+
+      - name: Check Isaac Sim documentation links
+        run: |
+          curl -f -s -o /dev/null -w "%{http_code}" https://docs.nvidia.com/isaac-sim/ || echo "Isaac Sim docs not accessible"

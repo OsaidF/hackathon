@@ -1,0 +1,302 @@
+{
+  "name": "OpenCV and Isaac Sim Context7 Integration",
+  "version": "1.0.0",
+  "description": "MCP integration for OpenCV computer vision and NVIDIA Isaac Sim robotics simulation",
+  "servers": [
+    {
+      "name": "opencv-computer-vision",
+      "command": "python",
+      "args": ["-m", "mcp.server.opencv"],
+      "env": {
+        "OPENCV_VERSION": "4.8.0",
+        "PYTHONPATH": "/usr/local/lib/python3.9/dist-packages"
+      },
+      "capabilities": [
+        "image_processing",
+        "object_detection",
+        "feature_extraction",
+        "camera_calibration",
+        "visual_odometry"
+      ]
+    },
+    {
+      "name": "isaac-sim-simulator",
+      "command": "python",
+      "args": ["-m", "mcp.server.isaac_sim"],
+      "env": {
+        "ISAAC_SIM_PATH": "/home/user/.local/share/isaac-sim",
+        "PYTHONPATH": "${ISAAC_SIM_PATH}/python"
+      },
+      "capabilities": [
+        "physics_simulation",
+        "robot_modeling",
+        "synthetic_data_generation",
+        "sensor_simulation",
+        "sim2real_transfer"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "opencv_image_processor",
+      "description": "Process images using OpenCV functions",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "image_path": {
+            "type": "string",
+            "description": "Path to input image file"
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "function": {
+                  "type": "string",
+                  "enum": ["resize", "grayscale", "blur", "edge_detection", "threshold", "morphology"]
+                },
+                "parameters": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output_path": {
+            "type": "string",
+            "description": "Path to save processed image"
+          }
+        },
+        "required": ["image_path", "operations"]
+      }
+    },
+    {
+      "name": "yolo_object_detector",
+      "description": "Detect objects using YOLO model",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "image_path": {
+            "type": "string",
+            "description": "Path to input image"
+          },
+          "model_path": {
+            "type": "string",
+            "description": "Path to YOLO model weights"
+          },
+          "confidence_threshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.5
+          },
+          "nms_threshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.4
+          }
+        },
+        "required": ["image_path", "model_path"]
+      }
+    },
+    {
+      "name": "camera_calibrator",
+      "description": "Calibrate camera using chessboard images",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "images_directory": {
+            "type": "string",
+            "description": "Directory containing calibration images"
+          },
+          "board_size": {
+            "type": "array",
+            "items": {"type": "integer"},
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Chessboard dimensions [corners_x, corners_y]"
+          },
+          "square_size": {
+            "type": "number",
+            "description": "Size of chessboard squares in mm"
+          }
+        },
+        "required": ["images_directory", "board_size", "square_size"]
+      }
+    },
+    {
+      "name": "isaac_sim_environment",
+      "description": "Create or modify Isaac Sim environments",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["create", "load", "save", "modify"],
+            "description": "Action to perform on environment"
+          },
+          "environment_type": {
+            "type": "string",
+            "enum": ["indoor", "outdoor", "warehouse", "laboratory", "custom"],
+            "description": "Type of environment to create"
+          },
+          "environment_path": {
+            "type": "string",
+            "description": "Path to environment file (for load/save)"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Environment properties and objects"
+          }
+        },
+        "required": ["action"]
+      }
+    },
+    {
+      "name": "isaac_robot_spawn",
+      "description": "Spawn and configure robots in Isaac Sim",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "robot_type": {
+            "type": "string",
+            "enum": ["humanoid", "quadruped", "manipulator", "mobile"],
+            "description": "Type of robot to spawn"
+          },
+          "robot_config": {
+            "type": "object",
+            "properties": {
+              "position": {"type": "array", "items": {"type": "number"}},
+              "orientation": {"type": "array", "items": {"type": "number"}},
+              "scale": {"type": "number"}
+            }
+          },
+          "controllers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "type": {"type": "string"},
+                "parameters": {"type": "object"}
+              }
+            }
+          }
+        },
+        "required": ["robot_type"]
+      }
+    },
+    {
+      "name": "synthetic_data_generator",
+      "description": "Generate synthetic training data in Isaac Sim",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "enum": ["object_detection", "segmentation", "depth_estimation", "pose_estimation"],
+            "description": "Type of synthetic data to generate"
+          },
+          "num_samples": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of samples to generate"
+          },
+          "output_directory": {
+            "type": "string",
+            "description": "Directory to save generated data"
+          },
+          "domain_randomization": {
+            "type": "object",
+            "properties": {
+              "lighting": {"type": "boolean"},
+              "textures": {"type": "boolean"},
+              "camera_poses": {"type": "boolean"},
+              "object_poses": {"type": "boolean"}
+            }
+          }
+        },
+        "required": ["data_type", "num_samples", "output_directory"]
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "name": "robot_vision_pipeline",
+      "description": "Complete robot vision processing pipeline",
+      "steps": [
+        "acquire_camera_image",
+        "preprocess_image_opencv",
+        "detect_objects_yolo",
+        "estimate_depth",
+        "publish_ros_messages"
+      ]
+    },
+    {
+      "name": "sim2real_data_pipeline",
+      "description": "Sim-to-real data generation and training",
+      "steps": [
+        "create_isaac_environment",
+        "spawn_robot_and_objects",
+        "generate_synthetic_data",
+        "apply_domain_randomization",
+        "train_model_on_synthetic_data",
+        "validate_real_world_performance"
+      ]
+    },
+    {
+      "name": "calibration_pipeline",
+      "description": "Camera and sensor calibration workflow",
+      "steps": [
+        "capture_calibration_images",
+        "detect_chessboard_corners",
+        "calculate_camera_matrix",
+        "undistort_images",
+        "validate_calibration_accuracy"
+      ]
+    }
+  ],
+  "ros_integration": {
+    "nodes": [
+      {
+        "name": "opencv_processor",
+        "package": "humanoid_vision",
+        "executable": "opencv_processor_node",
+        "parameters": {
+          "image_topic": "/camera/image_raw",
+          "detection_topic": "/vision/detections",
+          "model_path": "/models/yolo.pt"
+        }
+      },
+      {
+        "name": "isaac_sim_bridge",
+        "package": "isaac_sim_ros",
+        "executable": "isaac_bridge_node",
+        "parameters": {
+          "sim_host": "localhost",
+          "sim_port": 49152,
+          "update_rate": 60
+        }
+      }
+    ],
+    "launch_files": [
+      {
+        "name": "vision_pipeline.launch",
+        "package": "humanoid_vision",
+        "description": "Launch complete vision processing pipeline"
+      },
+      {
+        "name": "isaac_sim.launch",
+        "package": "isaac_sim_ros",
+        "description": "Launch Isaac Sim ROS bridge"
+      }
+    ]
+  },
+  "documentation": {
+    "opencv_docs": "https://docs.opencv.org/4.x/",
+    "isaac_sim_docs": "https://docs.omniverse.nvidia.com/isaacsim/latest/index.html",
+    "ros_vision_tutorials": "https://docs.ros.org/en/humble/Tutorials-Advanced.html#vision",
+    "examples_repository": "https://github.com/humanoid-robotics/opencv-isaac-examples"
+  }
+}

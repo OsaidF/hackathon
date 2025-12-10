@@ -1,0 +1,22 @@
+{
+  "defaults": {
+    "timeout": 120000,
+    "wait": 1000,
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox", "--headless"]
+    },
+    "concurrency": 4,
+    "includeNotices": false,
+    "includeWarnings": true,
+    "strict": true,
+    "level": "AA"
+  },
+  "urls": [
+    "http://localhost:3000/",
+    "http://localhost:3000/intro",
+    "http://localhost:3000/quarter-1",
+    "http://localhost:3000/quarter-2",
+    "http://localhost:3000/quarter-3",
+    "http://localhost:3000/quarter-4"
+  ]
+}

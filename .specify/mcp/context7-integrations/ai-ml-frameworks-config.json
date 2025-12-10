@@ -1,0 +1,426 @@
+{
+  "name": "AI/ML Frameworks Context7 Integration",
+  "version": "1.0.0",
+  "description": "MCP integration for advanced AI and machine learning frameworks used in humanoid robotics",
+  "servers": [
+    {
+      "name": "pytorch-robotics",
+      "command": "python",
+      "args": ["-m", "mcp.server.pytorch"],
+      "env": {
+        "PYTHONPATH": "/usr/local/lib/python3.9/dist-packages",
+        "CUDA_VISIBLE_DEVICES": "0"
+      },
+      "capabilities": [
+        "neural_network_training",
+        "model_optimization",
+        "tensor_operations",
+        "gradient_computation",
+        "automatic_differentiation"
+      ]
+    },
+    {
+      "name": "tensorflow-robotics",
+      "command": "python",
+      "args": ["-m", "mcp.server.tensorflow"],
+      "env": {
+        "PYTHONPATH": "/usr/local/lib/python3.9/dist-packages",
+        "TF_FORCE_GPU_ALLOW_GROWTH": "true"
+      },
+      "capabilities": [
+        "deep_learning_models",
+        "distributed_training",
+        "model_serving",
+        "tf_lite_conversion",
+        "quantization_aware_training"
+      ]
+    },
+    {
+      "name": "huggingface-transformers",
+      "command": "python",
+      "args": ["-m", "mcp.server.huggingface"],
+      "env": {
+        "TRANSFORMERS_CACHE": "/cache/transformers",
+        "HF_HOME": "/cache/huggingface"
+      },
+      "capabilities": [
+        "pretrained_models",
+        "transformer_architectures",
+        "text_generation",
+        "tokenization",
+        "model_fine_tuning"
+      ]
+    },
+    {
+      "name": "scikit-learn-robotics",
+      "command": "python",
+      "args": ["-m", "mcp.server.sklearn"],
+      "env": {
+        "PYTHONPATH": "/usr/local/lib/python3.9/dist-packages"
+      },
+      "capabilities": [
+        "classical_ml",
+        "dimensionality_reduction",
+        "clustering",
+        "anomaly_detection",
+        "model_evaluation"
+      ]
+    },
+    {
+      "name": "rl-frameworks",
+      "command": "python",
+      "args": ["-m", "mcp.server.reinforcement_learning"],
+      "env": {
+        "PYTHONPATH": "/usr/local/lib/python3.9/dist-packages",
+        "GYM_ENVIRONMENTS": "/gym/environments"
+      },
+      "capabilities": [
+        "reinforcement_learning",
+        "policy_optimization",
+        "value_function_approximation",
+        "environment_simulation",
+        "reward_shaping"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "pytorch_model_trainer",
+      "description": "Train PyTorch models for robotics applications",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model_config": {
+            "type": "object",
+            "description": "Model architecture configuration"
+          },
+          "training_data": {
+            "type": "string",
+            "description": "Path to training dataset"
+          },
+          "optimizer": {
+            "type": "string",
+            "enum": ["adam", "sgd", "adamw", "rmsprop"],
+            "description": "Optimizer to use for training"
+          },
+          "learning_rate": {
+            "type": "number",
+            "minimum": 1e-6,
+            "maximum": 1.0,
+            "description": "Learning rate for optimization"
+          },
+          "epochs": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000,
+            "description": "Number of training epochs"
+          },
+          "batch_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024,
+            "description": "Batch size for training"
+          },
+          "device": {
+            "type": "string",
+            "enum": ["cpu", "cuda", "auto"],
+            "description": "Device to use for training"
+          }
+        },
+        "required": ["model_config", "training_data", "epochs"]
+      }
+    },
+    {
+      "name": "tensorflow_model_converter",
+      "description": "Convert TensorFlow models to optimized formats",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model_path": {
+            "type": "string",
+            "description": "Path to TensorFlow model"
+          },
+          "output_format": {
+            "type": "string",
+            "enum": ["tflite", "onnx", "saved_model", "frozen_graph"],
+            "description": "Target format for conversion"
+          },
+          "optimization_level": {
+            "type": "string",
+            "enum": ["none", "basic", "aggressive"],
+            "description": "Optimization level for conversion"
+          },
+          "quantization": {
+            "type": "boolean",
+            "description": "Apply quantization to reduce model size"
+          }
+        },
+        "required": ["model_path", "output_format"]
+      }
+    },
+    {
+      "name": "huggingface_model_loader",
+      "description": "Load and fine-tune pre-trained models from HuggingFace",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model_name": {
+            "type": "string",
+            "description": "HuggingFace model identifier"
+          },
+          "task_type": {
+            "type": "string",
+            "enum": ["text-generation", "text-classification", "question-answering", "summarization", "translation"],
+            "description": "Type of task the model should perform"
+          },
+          "fine_tuning_data": {
+            "type": "string",
+            "description": "Path to fine-tuning dataset (optional)"
+          },
+          "max_length": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2048,
+            "description": "Maximum sequence length for the model"
+          },
+          "num_return_sequences": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "description": "Number of sequences to generate"
+          }
+        },
+        "required": ["model_name", "task_type"]
+      }
+    },
+    {
+      "name": "scikit_learn_trainer",
+      "description": "Train classical machine learning models",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "algorithm": {
+            "type": "string",
+            "enum": ["svm", "random_forest", "gradient_boosting", "logistic_regression", "knn", "naive_bayes"],
+            "description": "Machine learning algorithm to use"
+          },
+          "training_data": {
+            "type": "string",
+            "description": "Path to training dataset"
+          },
+          "target_column": {
+            "type": "string",
+            "description": "Name of target column in dataset"
+          },
+          "hyperparameters": {
+            "type": "object",
+            "description": "Hyperparameters for the algorithm"
+          },
+          "cross_validation": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 20,
+            "description": "Number of cross-validation folds"
+          }
+        },
+        "required": ["algorithm", "training_data", "target_column"]
+      }
+    },
+    {
+      "name": "reinforcement_learning_trainer",
+      "description": "Train reinforcement learning agents for robot control",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "algorithm": {
+            "type": "string",
+            "enum": ["ppo", "a2c", "dqn", "sac", "td3", "rainbow"],
+            "description": "Reinforcement learning algorithm"
+          },
+          "environment_id": {
+            "type": "string",
+            "description": "OpenAI Gym environment ID"
+          },
+          "total_timesteps": {
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 10000000,
+            "description": "Total number of timesteps for training"
+          },
+          "learning_rate": {
+            "type": "number",
+            "minimum": 1e-6,
+            "maximum": 1.0,
+            "description": "Learning rate for RL algorithm"
+          },
+          "gamma": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Discount factor for future rewards"
+          },
+          "buffer_size": {
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 1000000,
+            "description": "Replay buffer size for off-policy algorithms"
+          }
+        },
+        "required": ["algorithm", "environment_id", "total_timesteps"]
+      }
+    },
+    {
+      "name": "model_performance_analyzer",
+      "description": "Analyze and evaluate model performance",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model_path": {
+            "type": "string",
+            "description": "Path to trained model"
+          },
+          "test_data": {
+            "type": "string",
+            "description": "Path to test dataset"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["accuracy", "precision", "recall", "f1", "mse", "mae", "r2", "confusion_matrix", "roc_auc"]
+            },
+            "description": "Metrics to compute for evaluation"
+          },
+          "visualization": {
+            "type": "boolean",
+            "description": "Generate performance visualizations"
+          }
+        },
+        "required": ["model_path", "test_data"]
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "name": "robot_perception_pipeline",
+      "description": "Complete ML pipeline for robot perception",
+      "steps": [
+        "load_training_data",
+        "preprocess_images",
+        "train_vision_model",
+        "validate_performance",
+        "optimize_for_edge",
+        "deploy_to_robot"
+      ]
+    },
+    {
+      "name": "reinforcement_learning_control",
+      "description": "Train RL agents for robot control tasks",
+      "steps": [
+        "setup_robot_environment",
+        "initialize_rl_algorithm",
+        "train_policy_network",
+        "evaluate_control_performance",
+        "fine_tune_hyperparameters",
+        "deploy_control_policy"
+      ]
+    },
+    {
+      "name": "multimodal_ai_integration",
+      "description": "Integrate multiple AI models for multimodal robot understanding",
+      "steps": [
+        "load_vision_model",
+        "load_language_model",
+        "load_audio_model",
+        "create_fusion_network",
+        "train_multimodal_model",
+        "validate_integration"
+      ]
+    },
+    {
+      "name": "model_optimization_pipeline",
+      "description": "Optimize models for deployment on edge devices",
+      "steps": [
+        "analyze_model_performance",
+        "apply_quantization",
+        "prune_unnecessary_weights",
+        "convert_to_optimized_format",
+        "benchmark_performance",
+        "deploy_optimized_model"
+      ]
+    }
+  ],
+  "ros_integration": {
+    "nodes": [
+      {
+        "name": "pytorch_inference_node",
+        "package": "robotics_ml",
+        "executable": "pytorch_inference_node",
+        "parameters": {
+          "model_path": "/models/pytorch/robot_model.pt",
+          "input_topic": "/camera/image_raw",
+          "output_topic": "/ml/predictions",
+          "device": "cuda"
+        }
+      },
+      {
+        "name": "tensorflow_serving_node",
+        "package": "robotics_ml",
+        "executable": "tensorflow_serving_node",
+        "parameters": {
+          "model_path": "/models/tensorflow/saved_model",
+          "serving_port": 8501,
+          "input_topic": "/sensor/data",
+          "output_topic": "/tf/predictions"
+        }
+      },
+      {
+        "name": "reinforcement_learning_node",
+        "package": "robotics_rl",
+        "executable": "rl_agent_node",
+        "parameters": {
+          "algorithm": "ppo",
+          "model_path": "/models/rl/policy.pth",
+          "observation_topic": "/robot/state",
+          "action_topic": "/robot/commands"
+        }
+      },
+      {
+        "name": "huggingface_nlp_node",
+        "package": "robotics_nlp",
+        "executable": "huggingface_node",
+        "parameters": {
+          "model_name": "microsoft/DialoGPT-medium",
+          "input_topic": "/speech/asr_output",
+          "output_topic": "/nlp/response"
+        }
+      }
+    ],
+    "launch_files": [
+      {
+        "name": "robotics_ml_pipeline.launch",
+        "package": "robotics_ml",
+        "description": "Launch complete ML inference pipeline"
+      },
+      {
+        "name": "reinforcement_learning.launch",
+        "package": "robotics_rl",
+        "description": "Launch RL training and inference"
+      },
+      {
+        "name": "multimodal_ai.launch",
+        "package": "robotics_ai",
+        "description": "Launch multimodal AI integration"
+      }
+    ]
+  },
+  "documentation": {
+    "pytorch_docs": "https://pytorch.org/docs/stable/index.html",
+    "tensorflow_docs": "https://www.tensorflow.org/api_docs",
+    "huggingface_docs": "https://huggingface.co/docs/transformers/index.html",
+    "scikit_learn_docs": "https://scikit-learn.org/stable/user_guide.html",
+    "stable_baselines3_docs": "https://stable-baselines3.readthedocs.io/",
+    "gymnasium_docs": "https://gymnasium.farama.org/",
+    "examples_repository": "https://github.com/humanoid-robotics/ai-ml-examples"
+  }
+}

@@ -1,0 +1,675 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Robotics-specific color scheme */
+  --robotics-primary: #2563eb;
+  --robotics-secondary: #10b981;
+  --robotics-accent: #8b5cf6;
+  --robotics-dark: #1f2937;
+  --robotics-light: #f3f4f6;
+}
+
+/* Dark theme variables */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  /* Robotics dark theme */
+  --robotics-primary: #60a5fa;
+  --robotics-secondary: #34d399;
+  --robotics-accent: #a78bfa;
+  --robotics-dark: #f9fafb;
+  --robotics-light: #374151;
+}
+
+/* Custom styles for robotics book */
+.hero__title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--robotics-primary), var(--robotics-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  color: var(--ifm-color-emphasis-700);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Quarter cards styling */
+.quarter-card {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 100%;
+  transition: all 0.3s ease;
+  background: var(--ifm-background-color);
+}
+
+.quarter-card:hover {
+  border-color: var(--robotics-primary);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+}
+
+.quarter-card h3 {
+  color: var(--robotics-primary);
+  margin-bottom: 1rem;
+}
+
+.quarter-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--robotics-primary);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Hardware spec component styling */
+.hardware-spec {
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.hardware-spec h4 {
+  color: var(--robotics-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.hardware-requirement {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.hardware-requirement:last-child {
+  border-bottom: none;
+}
+
+.requirement-met {
+  color: var(--robotics-secondary);
+  font-weight: 500;
+}
+
+.requirement-partial {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.requirement-missing {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+/* Code block enhancements */
+.docusaurus-highlight-code-line {
+  background-color: var(--docusaurus-highlighted-code-line-bg);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+/* Code block with line numbers */
+.code-with-line-numbers .line-number {
+  display: inline-block;
+  width: 2.5em;
+  user-select: none;
+  opacity: 0.5;
+  text-align: right;
+}
+
+/* Context7 MCP integration styling */
+.context7-docs {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: var(--ifm-background-surface-color);
+}
+
+.context7-docs .context7-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: var(--robotics-accent);
+  font-weight: 500;
+}
+
+.context7-docs .context7-header::before {
+  content: "📚";
+  margin-right: 0.5rem;
+}
+
+.context7-docs .context7-source {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Interactive demo styling */
+.interactive-demo {
+  border: 2px dashed var(--robotics-accent);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  background: var(--ifm-color-info-contrast-background);
+}
+
+.interactive-demo h4 {
+  color: var(--robotics-accent);
+  margin-bottom: 1rem;
+}
+
+.interactive-demo p {
+  color: var(--ifm-color-emphasis-800);
+  margin-bottom: 1.5rem;
+}
+
+/* Progress indicator for quarters */
+.progress-indicator {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.progress-step.completed {
+  color: var(--robotics-secondary);
+}
+
+.progress-step.current {
+  color: var(--robotics-primary);
+  font-weight: 500;
+}
+
+.progress-step.upcoming {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.progress-step .step-circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.progress-step.completed .step-circle {
+  background: var(--robotics-secondary);
+}
+
+.progress-step.current .step-circle {
+  background: var(--robotics-primary);
+}
+
+/* Alert boxes for important notes */
+.alert-note {
+  border-left: 4px solid var(--robotics-primary);
+  background: var(--ifm-color-info-contrast-background);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.alert-warning {
+  border-left: 4px solid #f59e0b;
+  background: #fef3c7;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.alert-error {
+  border-left: 4px solid #ef4444;
+  background: #fef2f2;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .hero__title {
+    font-size: 2.5rem;
+  }
+
+  .progress-indicator {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .quarter-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Enhanced animations and transitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Enhanced components with animations */
+.quarter-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.hero__title {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero__subtitle {
+  animation: fadeInUp 1s ease-out;
+}
+
+/* Table of contents enhancements */
+.table-of-contents {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.table-of-contents li {
+  margin-bottom: 0.25rem;
+}
+
+.table-of-contents a {
+  color: var(--ifm-color-emphasis-800);
+  transition: color 0.2s ease;
+}
+
+.table-of-contents a:hover {
+  color: var(--robotics-primary);
+}
+
+/* Enhanced code blocks */
+.theme-code-block {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.theme-code-block:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Copy button styling */
+.button.copy-button {
+  background: var(--robotics-primary) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.75rem !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.button.copy-button:hover {
+  background: var(--robotics-primary-dark) !important;
+}
+
+/* Admonition enhancements */
+.admonition {
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.admonition.admonition-note {
+  border-left: 4px solid var(--robotics-primary) !important;
+}
+
+.admonition.admonition-tip {
+  border-left: 4px solid var(--robotics-secondary) !important;
+}
+
+.admonition.admonition-warning {
+  border-left: 4px solid #f59e0b !important;
+}
+
+.admonition.admonition-danger {
+  border-left: 4px solid #ef4444 !important;
+}
+
+/* Enhanced search styling */
+.DocSearch {
+  --docsearch-primary-color: var(--robotics-primary) !important;
+  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--robotics-primary) !important;
+}
+
+/* Breadcrumb enhancements */
+.breadcrumbs__item {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.breadcrumbs__item:hover {
+  color: var(--robotics-primary);
+}
+
+.breadcrumbs__link {
+  transition: color 0.2s ease;
+}
+
+/* Pagination enhancements */
+.pagination-nav__link {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--robotics-primary);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Footer enhancements */
+.footer {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  background: #000435;
+}
+
+.footer__links {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.footer__links:hover {
+  color: var(--robotics-primary);
+}
+
+/* Reading progress bar */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--robotics-primary), var(--robotics-accent));
+  z-index: 1000;
+  transition: width 0.3s ease;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--robotics-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.back-to-top:hover {
+  background: var(--robotics-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+/* Enhanced tooltip styles */
+.tooltip {
+  background: var(--robotics-dark);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: 50%;
+  border-top-color: var(--robotics-primary);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Enhanced focus styles for accessibility */
+*:focus {
+  outline: 2px solid var(--robotics-primary);
+  outline-offset: 2px;
+}
+
+/* Enhanced image lazy loading */
+img {
+  transition: opacity 0.3s ease;
+}
+
+img[data-src] {
+  opacity: 0;
+}
+
+img.loaded {
+  opacity: 1;
+}
+
+/* Enhanced table styling */
+.markdown table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.markdown table th {
+  background: var(--robotics-primary);
+  color: white;
+  font-weight: 600;
+}
+
+.markdown table tr:nth-child(even) {
+  background: var(--ifm-color-emphasis-100);
+}
+
+/* Enhanced blockquote styling */
+.markdown blockquote {
+  border-left: 4px solid var(--robotics-primary);
+  background: var(--ifm-color-info-contrast-background);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced list styling */
+.markdown ul li::marker {
+  color: var(--robotics-primary);
+}
+
+.markdown ol li::marker {
+  color: var(--robotics-primary);
+  font-weight: bold;
+}
+
+/* Enhanced link styling */
+.markdown a {
+  color: var(--robotics-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.markdown a:hover {
+  color: var(--robotics-primary-dark);
+  border-bottom-color: var(--robotics-primary-dark);
+}
+
+/* Print styles */
+@media print {
+  .navbar,
+  .footer,
+  .pagination-nav,
+  .interactive-demo,
+  .back-to-top,
+  .reading-progress-bar {
+    display: none;
+  }
+
+  .quarter-card {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+    box-shadow: none;
+  }
+
+  .markdown table {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .admonition {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .hero__title {
+    color: #000;
+    background: none;
+    -webkit-text-fill-color: #000;
+  }
+
+  /* Ensure all text is black for printing */
+  * {
+    color: #000 !important;
+  }
+
+  /* Ensure backgrounds are white */
+  .quarter-card,
+  .admonition,
+  .context7-docs {
+    background: #fff !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --robotics-primary: #0066cc;
+    --robotics-secondary: #008800;
+    --robotics-accent: #8800cc;
+  }
+
+  .quarter-card {
+    border-width: 2px;
+  }
+
+  .markdown a {
+    border-bottom-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark mode print support */
+@media print and (prefers-color-scheme: dark) {
+  .hero__title {
+    color: #000;
+    background: none;
+    -webkit-text-fill-color: #000;
+  }
+}

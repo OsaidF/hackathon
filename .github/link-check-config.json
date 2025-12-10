@@ -1,0 +1,36 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "https://your-username.github.io"
+    },
+    {
+      "pattern": "http://localhost"
+    },
+    {
+      "pattern": "http://127.0.0.1"
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/docs/",
+      "replacement": "https://your-username.github.io/humanoid-robotics/docs/"
+    },
+    {
+      "pattern": "^/",
+      "replacement": "https://your-username.github.io/humanoid-robotics/"
+    }
+  ],
+  "httpHeaders": [
+    {
+      "urls": ["https://docs.ros.org"],
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (compatible; markdown-link-check/3.8.7; +https://github.com/gaurav-nelson/github-action-markdown-link-check)"
+      }
+    }
+  ],
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "30s",
+  "aliveStatusCodes": [200, 203, 206, 300, 301, 302, 303, 307, 308]
+}
