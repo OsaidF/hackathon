@@ -1,0 +1,78 @@
+.complexityIndicator {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  background: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.prerequisites {
+  font-size: 13px;
+}
+
+.prerequisites ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.prerequisites li {
+  margin: 4px 0;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .complexityIndicator {
+    padding: 12px;
+    margin: 12px 0;
+  }
+
+  .header {
+    font-size: 16px;
+  }
+
+  .icon {
+    font-size: 20px;
+    margin-right: 6px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+}

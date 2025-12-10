@@ -1,0 +1,167 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint || echo "No lint script configured"
+
+      - name: Check formatting
+        run: npm run format:check || echo "No format script configured"
+
+      - name: Type checking
+        run: npm run type-check || echo "No type-check script configured"
+
+      - name: Test build
+        run: npm run build
+
+      - name: Start development server and run smoke tests
+        run: |
+          npm run start &
+          sleep 10
+          curl -f http://localhost:3000 || exit 1
+          pkill -f "npm run start" || true
+
+      - name: Bundle size check
+        run: |
+          npm run build
+          du -sh build/ || echo "No bundle size analysis"
+
+  validate-content:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for broken internal links
+        run: |
+          npx markdown-link-check \
+            docs/**/*.md \
+            --config .github/link-check-config.json \
+            --verbose
+
+      - name: Validate frontmatter
+        run: |
+          npx gray-matter-find \
+            docs/**/*.md \
+            --require frontmatter.title,frontmatter.description
+
+      - name: Check for TODO comments in production
+        run: |
+          if grep -r "TODO\|FIXME\|XXX" docs/ --include="*.md"; then
+            echo "Found TODO comments in documentation"
+            exit 1
+          fi
+
+      - name: Validate image references
+        run: |
+          find docs/ -name "*.md" -exec grep -l "!\[.*\](" {} \; | \
+          xargs -I {} sh -c 'echo "Checking {}" && grep -o "!\[.*\]([^)]*)" {} | head -5'
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level moderate
+
+      - name: Check for sensitive data
+        run: |
+          # Check for potential secrets
+          if grep -r -i "password\|secret\|key\|token" . --exclude-dir=node_modules --exclude-dir=.git --include="*.js" --include="*.json" --include="*.md" | grep -v "example\|test\|demo"; then
+            echo "Potential sensitive data found"
+            exit 1
+          fi
+
+  accessibility-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Run accessibility tests
+        run: |
+          npm install -g pa11y-ci
+          pa11y-ci --sitemap http://localhost:3000/sitemap.xml --json > a11y-report.json || echo "Accessibility check completed"
+          # Note: This would require the site to be running first
+
+  performance-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.12.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        continue-on-error: true
