@@ -8,12 +8,12 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-username.github.io',
+  url: 'https://osaid-robotic-and-physical-ai.vercel.app/',
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/',
 
   // GitHub Pages deployment config
-  organizationName: 'your-username', // Usually your GitHub org/user name
+  organizationName: 'OsaidF', // Usually your GitHub org/user name
   projectName: 'humanoid-robotics', // Usually your repo name
 
   onBrokenLinks: 'warn',
@@ -40,7 +40,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/your-username/humanoid-robotics/tree/main/',
+          editUrl: 'https://osaid-robotic-and-physical-ai.vercel.app/',
         },
         blog: false, // Disable blog for book-focused site
         theme: {
