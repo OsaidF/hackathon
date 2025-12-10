@@ -40,7 +40,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/your-username/humanoid-robotics/tree/main/',
+          editUrl: 'https://osaid-robotic-and-physical-ai.vercel.app/',
         },
         blog: false, // Disable blog for book-focused site
         theme: {
