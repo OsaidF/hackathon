@@ -8,7 +8,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://https://osaid-robotic-and-physical-ai.vercel.app/',
+  url: 'https://osaid-robotic-and-physical-ai.vercel.app/',
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/',
 
