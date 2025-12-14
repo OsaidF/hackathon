@@ -97,6 +97,8 @@ logs
 # Static assets that shouldn't be committed
 static/uploads/
 docs/assets/uploads/
+docs/DEPLOYMENT.md
+CLAUDE.md
 
 # Temporary files
 *.tmp

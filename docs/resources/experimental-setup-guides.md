@@ -15,9 +15,6 @@ This comprehensive guide provides detailed experimental setups for validating ro
 3. [Deep Learning Benchmarking](#3-deep-learning-benchmarking)
 4. [Human-Robot Interaction Studies](#4-human-robot-interaction-studies)
 5. [Control System Validation](#5-control-system-validation)
-6. [Simulation-to-Real Transfer](#6-simulation-to-real-transfer)
-7. [Performance and Scalability Testing](#7-performance-and-scalability-testing)
-8. [Statistical Analysis Methods](#8-statistical-analysis-methods)
 
 ---
 

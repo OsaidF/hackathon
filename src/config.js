@@ -1,0 +1,1 @@
+export const API_URL = 'https://osaidf-raf-chatbot.hf.space'

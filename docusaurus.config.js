@@ -163,19 +163,8 @@ const config = {
 
   // Context7 MCP integration configuration
   // This section will be enhanced with actual MCP server configuration
-  customFields: {
-    mcpConfig: {
-      serverUrl: process.env.CONTEXT7_MCP_SERVER || 'http://localhost:3001',
-      libraries: [
-        'ros2',
-        'gazebo',
-        'isaac-sim',
-        'opencv',
-        'pytorch',
-        'tensorflow',
-        'unity-robotics'
-      ]
-    }
+    customFields: {
+    apiUrl: process.env.API_URL || 'https://osaidf-raf-chatbot.hf.space',
   },
 
   // Enable enhanced search functionality
