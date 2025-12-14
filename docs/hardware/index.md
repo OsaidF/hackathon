@@ -206,7 +206,7 @@ Choose your starting point below:
 
 **🏛️ Educational** → [Recommended Setups](recommended-setups.md)
 
-**🔬 Research** → [Advanced Setups](recommended-setups.md#research-configuration)
+**🔬 Research** → [Advanced Setups](recommended-setups.md)
 
 ---
 

@@ -14,10 +14,7 @@ This comprehensive guide provides structured transition paths for professionals 
 2. [Mechanical Engineer Transition Guide](#2-mechanical-engineer-transition-guide)
 3. [Computer Scientist Transition Guide](#3-computer-scientist-transition-guide)
 4. [Data Scientist Transition Guide](#4-data-scientist-transition-guide)
-5. [Electrical Engineer Transition Guide](#5-electrical-engineer-transition-guide)
-6. [Physics/Mathematics Background Transition Guide](#6-physicsmathematics-background-transition-guide)
-7. [Non-Technical Professional Transition Guide](#7-non-technical-professional-transition-guide)
-8. [General Success Strategies](#8-general-success-strategies)
+8. [General Success Strategies](#5-general-success-strategies)
 
 ---
 
