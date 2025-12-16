@@ -141,7 +141,7 @@ export default function Home() {
                 <li>Hardware Interfaces</li>
                 <li>Basic Programming</li>
               </ul>
-              <Link to="/docs/quarter-1/01-robotics-overview" className={styles.quarterLink}>
+              <Link to="/docs/quarter-1/robotics-overview" className={styles.quarterLink}>
                 Start Quarter 1 →
               </Link>
             </div>
@@ -158,7 +158,7 @@ export default function Home() {
                 <li>Digital Twins</li>
                 <li>Sim-to-Real Transfer</li>
               </ul>
-              <Link to="/docs/quarter-2/06-physics-simulation" className={styles.quarterLink}>
+              <Link to="/docs/quarter-2/physics-simulation" className={styles.quarterLink}>
                 Explore Quarter 2 →
               </Link>
             </div>
@@ -175,7 +175,7 @@ export default function Home() {
                 <li>Edge AI Deployment</li>
                 <li>NVIDIA Isaac Sim</li>
               </ul>
-              <Link to="/docs/quarter-3/11-computer-vision" className={styles.quarterLink}>
+              <Link to="/docs/quarter-3/computer-vision" className={styles.quarterLink}>
                 Master Quarter 3 →
               </Link>
             </div>
@@ -192,7 +192,7 @@ export default function Home() {
                 <li>Human-Robot Interaction</li>
                 <li>Voice Control</li>
               </ul>
-              <Link to="/docs/quarter-4/16-multimodal-ai" className={styles.quarterLink}>
+              <Link to="/docs/quarter-4/multimodal-ai" className={styles.quarterLink}>
                 Advance to Quarter 4 →
               </Link>
             </div>

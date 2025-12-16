@@ -306,7 +306,6 @@ Network: WiFi 6 + Ethernet
 - **Online Tutorials:** YouTube, Instructables, Hackaday
 
 ### **Setup Problems**
-- **Troubleshooting Guide:** [Installation Issues](../troubleshooting/)
 - **FAQ:** Common questions and solutions
 - **Video Guides:** Step-by-step setup tutorials
 - **One-on-One Help:** Community mentorship programs

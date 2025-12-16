@@ -98,19 +98,19 @@ const config = {
           items: [
             {
               label: 'Quarter 1: ROS 2 Foundations',
-              to: '/docs/quarter-1/01-robotics-overview',
+              to: '/docs/quarter-1/robotics-overview',
             },
             {
               label: 'Quarter 2: Simulation',
-              to: '/docs/quarter-2/06-physics-simulation',
+              to: '/docs/quarter-2/physics-simulation',
             },
             {
               label: 'Quarter 3: AI Integration',
-              to: '/docs/quarter-3/11-computer-vision',
+              to: '/docs/quarter-3/computer-vision',
             },
             {
               label: 'Quarter 4: Advanced Embodied AI',
-              to: '/docs/quarter-4/16-multimodal-ai',
+              to: '/docs/quarter-4/multimodal-ai',
             },
           ],
         },
