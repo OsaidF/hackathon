@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, BookOpen, Loader2, ExternalLink, Sparkles } from 'lucide-react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import styles from './styles.module.css';
 import ReactMarkdown from 'react-markdown';
 import { API_URL } from '../../config';
@@ -14,6 +15,11 @@ export default function AskDocsButton() {
   const [showSelectionButton, setShowSelectionButton] = useState({ show: false, x: 0, y: 0 });
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Don't render on server side
+  if (!ExecutionEnvironment.canUseDOM) {
+    return null;
+  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -30,6 +36,9 @@ export default function AskDocsButton() {
   }, [isOpen]);
 
   useEffect(() => {
+    // Only run on client-side
+    if (!ExecutionEnvironment.canUseDOM) return;
+    
     // Load session ID from localStorage
     const storedSessionId = localStorage.getItem('docsSessionId');
     if (storedSessionId && storedSessionId !== 'undefined' && storedSessionId !== 'null') {
@@ -39,34 +48,34 @@ export default function AskDocsButton() {
   }, []);
 
   // Detect text selection
-  // Detect text selection and position button
-useEffect(() => {
-  const handleSelection = () => {
-    const selection = window.getSelection();
-    const text = selection.toString().trim();
-    
-    if (text && text.length > 0 && text.length < 500) {
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
+  useEffect(() => {
+    if (!ExecutionEnvironment.canUseDOM) return;
+
+    const handleSelection = () => {
+      const selection = window.getSelection();
+      const text = selection.toString().trim();
       
-      setSelectedText(text);
-      setShowSelectionButton({
-        show: true,
-        x: rect.left + (rect.width / 2), // Center horizontally
-        y: rect.top + window.scrollY - 50 // Position above selection
-      });
-    } else {
-      setShowSelectionButton({ show: false, x: 0, y: 0 });
-    }
-  };
+      if (text && text.length > 0 && text.length < 500) {
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        
+        setSelectedText(text);
+        setShowSelectionButton({
+          show: true,
+          x: rect.left + (rect.width / 2),
+          y: rect.top + window.scrollY - 50
+        });
+      } else {
+        setShowSelectionButton({ show: false, x: 0, y: 0 });
+      }
+    };
 
-  document.addEventListener('mouseup', handleSelection);
+    document.addEventListener('mouseup', handleSelection);
 
-  return () => {
-    document.removeEventListener('mouseup', handleSelection);
-  };
-}, []);
-
+    return () => {
+      document.removeEventListener('mouseup', handleSelection);
+    };
+  }, []);
 
   const loadHistory = async (sid) => {
     try {
@@ -105,7 +114,7 @@ useEffect(() => {
 
       const data = await response.json();
 
-      if (!sessionId) {
+      if (!sessionId && ExecutionEnvironment.canUseDOM) {
         setSessionId(data.session_id);
         localStorage.setItem('docsSessionId', data.session_id);
       }
@@ -137,17 +146,19 @@ useEffect(() => {
   const clearChat = () => {
     setMessages([]);
     setSessionId(null);
-    localStorage.removeItem('docsSessionId');
+    if (ExecutionEnvironment.canUseDOM) {
+      localStorage.removeItem('docsSessionId');
+    }
   };
 
-const askAboutSelection = () => {
-  setIsOpen(true);
-  setInput(`Explain this from the documentation: "${selectedText}"`);
-  setShowSelectionButton({ show: false, x: 0, y: 0 });
-  setTimeout(() => {
-    inputRef.current?.focus();
-  }, 100);
-};
+  const askAboutSelection = () => {
+    setIsOpen(true);
+    setInput(`Explain this from the documentation: "${selectedText}"`);
+    setShowSelectionButton({ show: false, x: 0, y: 0 });
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+  };
 
   return (
     <>
@@ -162,20 +173,20 @@ const askAboutSelection = () => {
 
       {/* Floating Selection Button */}
       {showSelectionButton.show && !isOpen && (
-  <button
-    onClick={askAboutSelection}
-    className={styles.selectionButton}
-    style={{
-      position: 'absolute',
-      top: `${showSelectionButton.y}px`,
-      left: `${showSelectionButton.x}px`,
-      transform: 'translateX(-50%)', // Center the button
-    }}
-  >
-    <Sparkles size={16} />
-    Ask about selection
-  </button>
-)}
+        <button
+          onClick={askAboutSelection}
+          className={styles.selectionButton}
+          style={{
+            position: 'absolute',
+            top: `${showSelectionButton.y}px`,
+            left: `${showSelectionButton.x}px`,
+            transform: 'translateX(-50%)',
+          }}
+        >
+          <Sparkles size={16} />
+          Ask about selection
+        </button>
+      )}
 
       {/* Modal Overlay */}
       {isOpen && (
@@ -250,58 +261,56 @@ const askAboutSelection = () => {
                           <div className={`${styles.messageBubble} ${styles[message.role]}`}>
                             {message.role === 'assistant' ? (
                               <div className={styles.markdown}>
-                              <ReactMarkdown
-                                
-                                components={{
-                                  // Custom components for better styling
-                                  code({node, inline, className, children, ...props}) {
-                                    return inline ? (
-                                      <code className={styles.inlineCode} {...props}>
-                                        {children}
-                                      </code>
-                                    ) : (
-                                      <pre className={styles.codeBlock}>
-                                        <code className={className} {...props}>
+                                <ReactMarkdown
+                                  components={{
+                                    code({node, inline, className, children, ...props}) {
+                                      return inline ? (
+                                        <code className={styles.inlineCode} {...props}>
                                           {children}
                                         </code>
-                                      </pre>
-                                    );
-                                  },
-                                  a({node, children, ...props}) {
-                                    return (
-                                      <a {...props} target="_blank" rel="noopener noreferrer" className={styles.markdownLink}>
-                                        {children}
-                                      </a>
-                                    );
-                                  },
-                                  p({children}) {
-                                    return <p className={styles.paragraph}>{children}</p>;
-                                  },
-                                  ul({children}) {
-                                    return <ul className={styles.list}>{children}</ul>;
-                                  },
-                                  ol({children}) {
-                                    return <ol className={styles.orderedList}>{children}</ol>;
-                                  },
-                                  li({children}) {
-                                    return <li className={styles.listItem}>{children}</li>;
-                                  },
-                                  h1({children}) {
-                                    return <h1 className={styles.heading1}>{children}</h1>;
-                                  },
-                                  h2({children}) {
-                                    return <h2 className={styles.heading2}>{children}</h2>;
-                                  },
-                                  h3({children}) {
-                                    return <h3 className={styles.heading3}>{children}</h3>;
-                                  },
-                                  blockquote({children}) {
-                                    return <blockquote className={styles.blockquote}>{children}</blockquote>;
-                                  },
-                                }}
-                              >
-                                {message.content}
-                              </ReactMarkdown>
+                                      ) : (
+                                        <pre className={styles.codeBlock}>
+                                          <code className={className} {...props}>
+                                            {children}
+                                          </code>
+                                        </pre>
+                                      );
+                                    },
+                                    a({node, children, ...props}) {
+                                      return (
+                                        <a {...props} target="_blank" rel="noopener noreferrer" className={styles.markdownLink}>
+                                          {children}
+                                        </a>
+                                      );
+                                    },
+                                    p({children}) {
+                                      return <p className={styles.paragraph}>{children}</p>;
+                                    },
+                                    ul({children}) {
+                                      return <ul className={styles.list}>{children}</ul>;
+                                    },
+                                    ol({children}) {
+                                      return <ol className={styles.orderedList}>{children}</ol>;
+                                    },
+                                    li({children}) {
+                                      return <li className={styles.listItem}>{children}</li>;
+                                    },
+                                    h1({children}) {
+                                      return <h1 className={styles.heading1}>{children}</h1>;
+                                    },
+                                    h2({children}) {
+                                      return <h2 className={styles.heading2}>{children}</h2>;
+                                    },
+                                    h3({children}) {
+                                      return <h3 className={styles.heading3}>{children}</h3>;
+                                    },
+                                    blockquote({children}) {
+                                      return <blockquote className={styles.blockquote}>{children}</blockquote>;
+                                    },
+                                  }}
+                                >
+                                  {message.content}
+                                </ReactMarkdown>
                               </div>
                             ) : (
                               message.content
