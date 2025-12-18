@@ -1,0 +1,909 @@
+openapi: 3.0.3
+info:
+  title: Humanoid Robotics Lab Guide Authentication API
+  description: API for user authentication, progress tracking, and bookmark management using better-auth
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@humanoid-robotics.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.humanoid-robotics.com/api/auth
+    description: Production server
+  - url: https://staging-api.humanoid-robotics.com/api/auth
+    description: Staging server
+  - url: http://localhost:4000/api/auth
+    description: Development server
+
+security:
+  - cookieAuth: []
+  - BearerAuth: []
+
+paths:
+  # Authentication endpoints (better-auth)
+  /sign-up:
+    post:
+      tags:
+        - Authentication
+      summary: Register new user
+      description: Create a new user account with email and password
+      operationId: signUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        '200':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /sign-in:
+    post:
+      tags:
+        - Authentication
+      summary: Sign in user
+      description: Authenticate user with email and password
+      operationId: signIn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+      responses:
+        '200':
+          description: User successfully authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /sign-out:
+    post:
+      tags:
+        - Authentication
+      summary: Sign out user
+      description: End user session and invalidate authentication
+      operationId: signOut
+      responses:
+        '200':
+          description: User successfully signed out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Successfully signed out"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /session:
+    get:
+      tags:
+        - Authentication
+      summary: Get current session
+      description: Get current user session information
+      operationId: getSession
+      responses:
+        '200':
+          description: Session information retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Reset password
+      description: Send password reset email to user
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+      responses:
+        '200':
+          description: Password reset email sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Password reset email sent"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /change-password:
+    post:
+      tags:
+        - Authentication
+      summary: Change password
+      description: Change user password (requires authentication)
+      operationId: changePassword
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - currentPassword
+                - newPassword
+              properties:
+                currentPassword:
+                  type: string
+                  format: password
+                  minLength: 1
+                newPassword:
+                  type: string
+                  format: password
+                  minLength: 8
+                  maxLength: 128
+      responses:
+        '200':
+          description: Password successfully changed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Password successfully changed"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # User profile endpoints
+  /profile:
+    get:
+      tags:
+        - User Profile
+      summary: Get user profile
+      description: Retrieve authenticated user's profile information
+      operationId: getUserProfile
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags:
+        - User Profile
+      summary: Update user profile
+      description: Update authenticated user's profile information
+      operationId: updateUserProfile
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+      responses:
+        '200':
+          description: User profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Progress tracking endpoints
+  /progress:
+    get:
+      tags:
+        - Progress
+      summary: Get user progress
+      description: Retrieve all progress records for authenticated user
+      operationId: getUserProgress
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: content_path
+          in: query
+          description: Filter by specific content path
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  progress:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserProgress'
+                  total:
+                    type: integer
+                    example: 42
+                  completed:
+                    type: integer
+                    example: 15
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - Progress
+      summary: Update progress
+      description: Update or create progress record for specific content
+      operationId: updateProgress
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProgressRequest'
+      responses:
+        '200':
+          description: Progress updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProgress'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /progress/{contentPath}:
+    delete:
+      tags:
+        - Progress
+      summary: Delete progress record
+      description: Delete progress record for specific content
+      operationId: deleteProgress
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: contentPath
+          in: path
+          required: true
+          description: URL-encoded content path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Progress record deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Progress record deleted"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Bookmark endpoints
+  /bookmarks:
+    get:
+      tags:
+        - Bookmarks
+      summary: Get user bookmarks
+      description: Retrieve all bookmarks for authenticated user
+      operationId: getUserBookmarks
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of bookmarks to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          description: Number of bookmarks to skip
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: User bookmarks retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bookmarks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Bookmark'
+                  total:
+                    type: integer
+                    example: 12
+                  hasMore:
+                    type: boolean
+                    example: false
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - Bookmarks
+      summary: Create bookmark
+      description: Create new bookmark for content
+      operationId: createBookmark
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookmarkRequest'
+      responses:
+        '201':
+          description: Bookmark created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bookmark'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /bookmarks/{contentPath}:
+    get:
+      tags:
+        - Bookmarks
+      summary: Get specific bookmark
+      description: Retrieve bookmark for specific content path
+      operationId: getBookmark
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: contentPath
+          in: path
+          required: true
+          description: URL-encoded content path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bookmark retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bookmark'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags:
+        - Bookmarks
+      summary: Update bookmark
+      description: Update bookmark for specific content path
+      operationId: updateBookmark
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: contentPath
+          in: path
+          required: true
+          description: URL-encoded content path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBookmarkRequest'
+      responses:
+        '200':
+          description: Bookmark updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bookmark'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags:
+        - Bookmarks
+      summary: Delete bookmark
+      description: Delete bookmark for specific content path
+      operationId: deleteBookmark
+      security:
+        - cookieAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: contentPath
+          in: path
+          required: true
+          description: URL-encoded content path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bookmark deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Bookmark deleted"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    # Authentication schemas
+    SignUpRequest:
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 128
+          example: "securePassword123"
+        name:
+          type: string
+          minLength: 2
+          maxLength: 255
+          example: "John Doe"
+
+    SignInRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          format: password
+          minLength: 1
+          example: "securePassword123"
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        session:
+          $ref: '#/components/schemas/Session'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        name:
+          type: string
+          example: "John Doe"
+        image:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://example.com/avatar.jpg"
+        emailVerified:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00.000Z"
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        expiresAt:
+          type: string
+          format: date-time
+          example: "2024-01-08T00:00:00.000Z"
+        ipAddress:
+          type: string
+          format: ipv4
+          example: "192.168.1.1"
+        userAgent:
+          type: string
+          example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+    SessionResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        session:
+          $ref: '#/components/schemas/Session'
+        isAuthenticated:
+          type: boolean
+          example: true
+
+    # User profile schemas
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        name:
+          type: string
+          example: "John Doe"
+        image:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://example.com/avatar.jpg"
+        emailVerified:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00.000Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00.000Z"
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 255
+          example: "John Doe"
+        image:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://example.com/avatar.jpg"
+
+    # Progress schemas
+    UserProgress:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440002"
+        contentPath:
+          type: string
+          example: "/docs/quarter-1/introduction"
+        completed:
+          type: boolean
+          example: true
+        completionPercentage:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 100
+        lastAccessed:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00.000Z"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00.000Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00.000Z"
+
+    UpdateProgressRequest:
+      type: object
+      required:
+        - contentPath
+      properties:
+        contentPath:
+          type: string
+          example: "/docs/quarter-1/introduction"
+        completed:
+          type: boolean
+          example: true
+        completionPercentage:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 85
+
+    # Bookmark schemas
+    Bookmark:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440003"
+        contentPath:
+          type: string
+          example: "/docs/quarter-2/advanced-concepts"
+        title:
+          type: string
+          example: "Advanced Robotics Concepts"
+        description:
+          type: string
+          example: "Important concepts for humanoid robot control"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00.000Z"
+
+    CreateBookmarkRequest:
+      type: object
+      required:
+        - contentPath
+      properties:
+        contentPath:
+          type: string
+          example: "/docs/quarter-2/advanced-concepts"
+        title:
+          type: string
+          maxLength: 255
+          example: "Advanced Robotics Concepts"
+        description:
+          type: string
+          example: "Important concepts for humanoid robot control"
+
+    UpdateBookmarkRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          example: "Advanced Robotics Concepts"
+        description:
+          type: string
+          example: "Important concepts for humanoid robot control and simulation"
+
+    # Error schemas
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Invalid input data"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Conflict:
+      description: Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: better-auth.session_token
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: User Profile
+    description: User profile management
+  - name: Progress
+    description: Learning progress tracking
+  - name: Bookmarks
+    description: Content bookmarking

@@ -88,7 +88,15 @@ const config = {
           label: 'Resources',
           position: 'left'
         },
-      ],
+        {
+          type: 'search',
+          position: 'right',
+        },
+        {
+          type: 'custom-authButtons', // Custom type
+          position: 'right',
+        },
+        ],
     },
     footer: {
       style: 'dark',

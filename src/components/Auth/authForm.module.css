@@ -1,0 +1,567 @@
+/* Authentication Form Styles */
+.authForm {
+  width: 100%;
+}
+
+.authFormHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.authFormTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  margin-bottom: 0.5rem;
+}
+
+.authFormSubtitle {
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.authFormContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Form Groups */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.formInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-left: 2.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-900);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.formInput.error {
+  border-color: var(--ifm-color-danger);
+}
+
+.formInput:disabled {
+  background-color: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-600);
+  cursor: not-allowed;
+}
+
+.formInputIcon {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--ifm-color-emphasis-500);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.formInputButton {
+  position: absolute;
+  right: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  color: var(--ifm-color-emphasis-500);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  z-index: 1;
+}
+
+.formInputButton:hover {
+  color: var(--ifm-color-emphasis-700);
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.formInputButton:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Error Messages */
+.formError {
+  font-size: 0.75rem;
+  color: var(--ifm-color-danger);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Password Strength Indicator */
+.passwordStrength {
+  margin-top: 0.5rem;
+}
+
+.passwordStrengthBar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--ifm-color-emphasis-200);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.passwordStrengthFill {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 2px;
+}
+
+.passwordStrengthFill.bg-red-500 {
+  background-color: #ef4444;
+}
+
+.passwordStrengthFill.bg-yellow-500 {
+  background-color: #f59e0b;
+}
+
+.passwordStrengthFill.bg-green-500 {
+  background-color: #10b981;
+}
+
+.passwordStrengthText {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.passwordStrengthText.text-xs {
+  font-size: 0.75rem;
+}
+
+/* Submit Button */
+.authFormButton {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: var(--ifm-color-primary);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+}
+
+.authFormButton:hover:not(:disabled) {
+  background-color: var(--ifm-color-primary-dark);
+}
+
+.authFormButton:active {
+  transform: translateY(1px);
+}
+
+.authFormButton:disabled {
+  background-color: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-600);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Footer */
+.authFormFooter {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  text-align: center;
+}
+
+.authLink {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.authLink:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Utility Classes */
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-gray-600 {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+
+.text-yellow-500 {
+  color: #f59e0b;
+}
+
+.text-green-500 {
+  color: #10b981;
+}
+
+.bg-red-500 {
+  background-color: #ef4444;
+}
+
+.bg-yellow-500 {
+  background-color: #f59e0b;
+}
+
+.bg-green-500 {
+  background-color: #10b981;
+}
+
+/* Navbar Auth Styles */
+.authNavButton {
+  padding: 0.375rem 0.75rem !important;
+  margin: 0 0.25rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none !important;
+  border: 1px solid transparent;
+}
+
+.authNavButton:hover {
+  background-color: var(--ifm-color-emphasis-100);
+  text-decoration: none !important;
+}
+
+.authNavButtonPrimary {
+  background-color: var(--ifm-color-primary) !important;
+  color: white !important;
+  border-color: var(--ifm-color-primary) !important;
+}
+
+.authNavButtonPrimary:hover {
+  background-color: var(--ifm-color-primary-dark) !important;
+  border-color: var(--ifm-color-primary-dark) !important;
+}
+
+.authUserMenu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.authUserName {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+  font-weight: 500;
+}
+
+/* Profile Settings Styles */
+.imagePreview {
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.imagePreviewImg {
+  width: 100%;
+  max-width: 200px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.profileInfo {
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.profileInfoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.profileInfoItem:last-child {
+  border-bottom: none;
+}
+
+.profileInfoLabel {
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.875rem;
+}
+
+.profileInfoValue {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.verified {
+  color: var(--ifm-color-success);
+  font-weight: 500;
+}
+
+.unverified {
+  color: var(--ifm-color-warning);
+  font-weight: 500;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.formActions .secondaryButton {
+  background-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+.formActions .secondaryButton:hover {
+  background-color: var(--ifm-color-emphasis-300);
+}
+
+/* Password Requirements Styles */
+.passwordRequirements {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 6px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.requirementList {
+  margin: 0.5rem 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.requirementItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.requirementItem:last-child {
+  margin-bottom: 0;
+}
+
+.requirementItem.met {
+  color: var(--ifm-color-success);
+}
+
+.requirementItem.unmet {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.requirementIcon {
+  flex-shrink: 0;
+}
+
+/* Email Verification Styles */
+.verificationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.verificationStatus {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.verificationSuccess {
+  color: var(--ifm-color-success);
+}
+
+.verificationPending {
+  color: var(--ifm-color-warning);
+}
+
+.verificationIcon {
+  margin: 0 auto 1rem;
+  color: currentColor;
+}
+
+.verificationTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.verificationMessage {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 0;
+}
+
+.verificationActions {
+  margin-top: 2rem;
+}
+
+.verificationButton {
+  width: 100%;
+  justify-content: center;
+}
+
+.spinningIcon {
+  animation: spin 1s linear infinite;
+}
+
+.verificationNote {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 6px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.noteText {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.verificationTips {
+  background: var(--ifm-color-emphasis-50);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.tipsTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  margin-bottom: 1rem;
+}
+
+.tipsList {
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+  list-style-type: disc;
+}
+
+.tipItem {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.tipItem:last-child {
+  margin-bottom: 0;
+}
+
+.verificationHelp {
+  background: var(--ifm-color-info-light);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid var(--ifm-color-info);
+}
+
+.helpTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ifm-color-info-dark);
+  margin-bottom: 0.75rem;
+}
+
+.helpText {
+  font-size: 0.875rem;
+  color: var(--ifm-color-info-dark);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 480px) {
+  .authFormTitle {
+    font-size: 1.5rem;
+  }
+
+  .formInput {
+    padding: 0.625rem 0.875rem;
+    padding-left: 2.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .authFormButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.8125rem;
+  }
+}

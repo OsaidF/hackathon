@@ -1,0 +1,44 @@
+.authContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 0.75rem;
+  padding-right: 10px;
+}
+
+.userName {
+  font-size: 0.875rem;
+  color: var(--ifm-navbar-link-color);
+}
+
+.authButton {
+  background: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.authButton:hover {
+  background: var(--ifm-color-primary-dark);
+  color: white;
+}
+
+.authLink {
+  color: var(--ifm-navbar-link-color);
+  text-decoration: none;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.authLink:hover {
+  color: var(--ifm-color-primary);
+}
