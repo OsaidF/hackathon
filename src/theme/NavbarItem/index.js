@@ -1,48 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import Link from '@docusaurus/Link';
 import DefaultNavbarItem from '@theme-original/NavbarItem';
+import Link from '@docusaurus/Link';
 import { useAuth } from '../../components/Auth/AuthProvider';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 function AuthButtons() {
-  const { user, loading, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Always return a container to maintain consistent DOM structure
-  if (!mounted || loading) {
-    return (
-      <div 
-        style={{ 
-          minWidth: '150px', 
-          height: '36px',
-          display: 'inline-block'
-        }} 
-      />
-    );
+  // Don't render during SSR
+  if (!ExecutionEnvironment.canUseDOM || !mounted) {
+    return <div style={{ minWidth: '150px', height: '36px' }} />;
+  }
+
+  // Now safe to use hooks
+  return <AuthButtonsClient />;
+}
+
+function AuthButtonsClient() {
+  const { user, loading, logout } = useAuth();
+
+  if (loading) {
+    return <div style={{ minWidth: '150px', height: '36px' }} />;
   }
 
   if (!user) {
     return (
-      <div style={{ display: 'flex', gap: '0.5rem' }} className="navbar__item--auth">
-        <Link to="/auth/login" className="navbar__link"
-          style={{
-            padding: '0.5rem 1rem',
-            borderRadius: '0.375rem'
-          }}>
+      <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <Link to="/auth/login" className="navbar__link">
           Sign In
         </Link>
         <Link 
           to="/auth/register" 
-          className="navbar__link"
-          style={{
-            backgroundColor: 'var(--ifm-color-primary)',
-            color: 'white',
-            padding: '0.5rem 1rem',
-            borderRadius: '0.375rem'
-          }}
+          className="navbar__link button button--primary"
         >
           Sign Up
         </Link>
@@ -51,7 +44,7 @@ function AuthButtons() {
   }
 
   return (
-    <div style={{ display: 'flex', gap: '0.5rem' }} className="navbar__item--auth">
+    <div style={{ display: 'flex', gap: '0.5rem' }}>
       <Link to="/auth/profile" className="navbar__link">
         Profile
       </Link>
