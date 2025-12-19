@@ -1,18 +1,20 @@
-import React from 'react';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import React, { useState, useEffect } from 'react';
 import DefaultNavbarItem from '@theme-original/NavbarItem';
 import { useAuth } from '../../components/Auth/AuthProvider';
 import styles from './styles.module.css';
 
 function AuthButtons() {
-  // Don't render during SSR
-  if (!ExecutionEnvironment.canUseDOM) {
-    return null;
-  }
-
+  const [mounted, setMounted] = useState(false);
   const { user, loading, logout } = useAuth();
 
-  if (loading) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Return consistent structure during SSR and initial client render
+  if (!mounted || loading) {
+    return <div className={styles.authContainer} />;
+  }
 
   return (
     <div className={styles.authContainer}>
