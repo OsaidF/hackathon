@@ -547,7 +547,307 @@
   margin: 0;
   line-height: 1.6;
 }
+/* Auth Pages Styles */
+.authPage {
+  min-height: calc(100vh - var(--ifm-navbar-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--ifm-color-primary-lightest) 0%, var(--ifm-color-secondary-lightest) 100%);
+}
 
+.authContainer {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.authCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  backdrop-filter: blur(10px);
+}
+
+.authHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.authTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.authSubtitle {
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.authForm {
+  margin-bottom: 1.5rem;
+}
+
+.authFooter {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.authFooterText {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0;
+}
+
+.authLink {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.authLink:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Profile Page Styles */
+.profilePage {
+  min-height: calc(100vh - var(--ifm-navbar-height));
+  padding: 2rem 1rem;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.profileContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profileHeader {
+  background: var(--ifm-background-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.profileAvatar {
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--ifm-color-primary);
+}
+
+.avatarPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ifm-color-emphasis-600);
+  border: 3px solid var(--ifm-color-emphasis-300);
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.profileName {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  margin: 0 0 0.5rem 0;
+}
+
+.profileEmail {
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 0 1rem 0;
+}
+
+.profileStatus {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.statusBadge.verified {
+  background: var(--ifm-color-success-light);
+  color: var(--ifm-color-success-dark);
+}
+
+.statusBadge.unverified {
+  background: var(--ifm-color-warning-light);
+  color: var(--ifm-color-warning-dark);
+}
+
+.memberSince {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.profileActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.profileActionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.profileActionButton:hover {
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+.logoutButton:hover {
+  background: var(--ifm-color-danger-light);
+  border-color: var(--ifm-color-danger);
+  color: var(--ifm-color-danger);
+}
+
+/* Profile Tabs */
+.profileTabs {
+  background: var(--ifm-background-color);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tabNav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tabButton:hover {
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+.tabButtonActive {
+  background: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+}
+
+.tabChevron {
+  transition: transform 0.2s ease;
+  margin-left: 0.25rem;
+}
+
+.tabChevronActive {
+  transform: rotate(90deg);
+}
+
+/* Profile Content */
+.profileContent {
+  background: var(--ifm-background-color);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contentCard {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .authCard {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-300);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .authPage {
+  background: linear-gradient(135deg, var(--ifm-color-primary-darker) 0%, var(--ifm-color-secondary-darker) 100%);
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .authPage {
+    padding: 1rem;
+  }
+
+  .authCard {
+    padding: 1.5rem;
+  }
+
+  .authTitle {
+    font-size: 1.75rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .authContainer {
+    max-width: 100%;
+  }
+
+  .authCard {
+    padding: 1rem;
+  }
+
+  .authTitle {
+    font-size: 1.5rem;
+  }
+}
 /* Responsive Design */
 @media screen and (max-width: 480px) {
   .authFormTitle {

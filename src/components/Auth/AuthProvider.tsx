@@ -112,6 +112,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   // Create API client with provided URL
   const apiClient = createApiClient(apiUrl);
@@ -120,13 +121,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
   const checkAuth = useCallback(async () => {
     // Skip on server-side
     if (!ExecutionEnvironment.canUseDOM) {
-      setLoading(false);
       return;
     }
 
     try {
-      setLoading(true);
-
       // Better-auth session endpoint: GET /api/auth/get-session
       const response = await apiClient.get<any>('/auth/get-session');
 
@@ -336,17 +334,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
     }
   }, [apiUrl, user?.email]);
 
-  // Initialize auth state only on client-side
+  // Track mounting for hydration consistency
   useEffect(() => {
-    if (ExecutionEnvironment.canUseDOM) {
+    setMounted(true);
+  }, []);
+
+  // Initialize auth state only on client-side after mount
+  useEffect(() => {
+    if (mounted && ExecutionEnvironment.canUseDOM) {
       checkAuth();
     }
-  }, [checkAuth]);
+  }, [mounted, checkAuth]);
 
+  // Return loading=true until mounted to ensure consistent hydration
   const value: AuthContextType = {
     user,
-    loading,
-    isAuthenticated: !!user,
+    loading: !mounted || loading,
+    isAuthenticated: mounted && !!user,
     login,
     register,
     logout,

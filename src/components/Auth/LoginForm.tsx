@@ -41,7 +41,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    mode: 'onChange',  
+    criteriaMode: 'all',
+    shouldFocusError: false, 
   });
 
   const onSubmit = async (data: LoginFormData) => {
@@ -125,7 +127,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading  || false}
           className={styles.authFormButton}
         >
           {isLoading ? (
