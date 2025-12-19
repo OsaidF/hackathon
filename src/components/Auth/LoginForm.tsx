@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -24,6 +24,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
   const { login, loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const {
     register,
@@ -51,12 +56,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
         window.location.href = redirectTo;
       }
     } catch (error) {
-      // Error is already handled in AuthProvider with toast
       console.error('Login form submission error:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Show loading state consistently
+  const isLoading = !mounted || loading || isSubmitting;
 
   return (
     <div className={styles.authForm}>
@@ -118,10 +125,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
 
         <button
           type="submit"
-          disabled={loading || isSubmitting}
+          disabled={isLoading}
           className={styles.authFormButton}
         >
-          {loading || isSubmitting ? (
+          {isLoading ? (
             <div className={`${styles.flex} ${styles.itemsCenter} ${styles.justifyCenter}`}>
               <div className={styles.spinner} />
               Signing In...
