@@ -590,6 +590,17 @@ img.loaded {
   border-bottom-color: var(--robotics-primary-dark);
 }
 
+
+/* Hide auth buttons during SSR */
+.navbar__item--auth {
+  display: none;
+}
+
+/* Show after hydration */
+html[data-has-hydrated] .navbar__item--auth {
+  display: flex;
+}
+
 /* Print styles */
 @media print {
   .navbar,
