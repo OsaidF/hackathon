@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from '@docusaurus/Link';
 import { useAuth } from './AuthProvider';
 import clsx from 'clsx';
@@ -6,9 +6,19 @@ import styles from './authForm.module.css';
 
 export default function AuthNavbarItem() {
   const { user, loading, logout } = useAuth();
+  const [mounted, setMounted] = useState(false);
 
-  if (loading) {
-    return null; // Don't show anything while loading
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Return consistent placeholder during SSR and initial render
+  if (!mounted || loading) {
+    return (
+      <div className={styles.authNavPlaceholder}>
+        {/* Empty placeholder to maintain layout */}
+      </div>
+    );
   }
 
   if (!user) {

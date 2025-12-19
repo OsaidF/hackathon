@@ -13,25 +13,7 @@ export default function RegisterPage() {
       <div className={styles.authPage}>
         <div className={styles.authContainer}>
           <div className={styles.authCard}>
-            <div className={styles.authHeader}>
-              <h1 className={styles.authTitle}>Join the Community</h1>
-              <p className={styles.authSubtitle}>
-                Create your account to start your robotics learning journey
-              </p>
-            </div>
-
-            <div className={styles.authForm}>
               <RegisterForm redirectTo="/docs/intro" />
-            </div>
-
-            <div className={styles.authFooter}>
-              <p className={styles.authFooterText}>
-                Already have an account?{' '}
-                <a href="/auth/login" className={styles.authLink}>
-                  Sign in
-                </a>
-              </p>
-            </div>
           </div>
         </div>
       </div>
