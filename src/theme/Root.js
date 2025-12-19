@@ -1,12 +1,9 @@
-import React, {useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider } from '../components/Auth/AuthProvider';
 import { Toaster } from 'react-hot-toast';
 
 // Default implementation, that you can customize
 export default function Root({children}) {
-  useEffect(() => {
-    document.documentElement.setAttribute('data-has-hydrated', 'true');
-  }, []);
   return <>
     <AuthProvider>
         {children}
