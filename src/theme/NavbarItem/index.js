@@ -26,8 +26,12 @@ function AuthButtons() {
 
   if (!user) {
     return (
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <Link to="/auth/login" className="navbar__link">
+      <div style={{ display: 'flex', gap: '0.5rem' }} className="navbar__item--auth">
+        <Link to="/auth/login" className="navbar__link"
+          style={{
+            padding: '0.5rem 1rem',
+            borderRadius: '0.375rem'
+          }}>
           Sign In
         </Link>
         <Link 
@@ -47,7 +51,7 @@ function AuthButtons() {
   }
 
   return (
-    <div style={{ display: 'flex', gap: '0.5rem' }}>
+    <div style={{ display: 'flex', gap: '0.5rem' }} className="navbar__item--auth">
       <Link to="/auth/profile" className="navbar__link">
         Profile
       </Link>
