@@ -385,7 +385,30 @@
 .selectionButton:active {
   transform: translateX(-50%) translateY(0);
 }
+/* Add this to your CSS file */
 
+.protipcontainer {
+  margin-top: 1.5rem; /* mt-6 */
+  padding: 1rem; /* p-4 */
+  background: linear-gradient(to right, #fffbeb, #fff7ed); /* bg-gradient-to-r from-amber-50 to-orange-50 */
+  border-radius: 0.5rem; /* rounded-lg */
+  border: 1px solid #fcd34d; /* border border-amber-200 */
+}
+
+.protipheader {
+  display: flex; /* flex */
+  align-items: center; /* items-center */
+  gap: 0.5rem; /* gap-2 */
+  color: #92400e; /* text-amber-800 */
+  font-weight: 500; /* font-medium */
+  margin-bottom: 0.25rem; /* mb-1 */
+}
+
+.protiptext {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: #b45309; /* text-amber-700 */
+}
 @keyframes popIn {
   0% {
     opacity: 0;
