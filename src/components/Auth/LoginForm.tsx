@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from '@docusaurus/router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -21,7 +22,8 @@ interface LoginFormProps {
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) => {
-  const { login, loading } = useAuth();
+  const { login, loading, user } = useAuth();
+  const history = useHistory()
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -29,6 +31,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    console.log('AuthButtons - mounted:', mounted, 'loading:', loading, 'user:', user);
+  }, [mounted, loading, user]);
 
   const {
     register,
@@ -55,7 +61,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
 
       // Redirect if specified
       if (redirectTo) {
-        window.location.href = redirectTo;
+        history.push(redirectTo);
       }
     } catch (error) {
       console.error('Login form submission error:', error);

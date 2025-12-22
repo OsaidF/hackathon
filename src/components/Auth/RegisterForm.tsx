@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from '@docusaurus/router'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -38,11 +39,21 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, redirectTo }) => {
-  const { register: registerUser, loading } = useAuth();
+  const { register: registerUser, loading, user } = useAuth();
+  const history = useHistory()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+
+  useEffect(() => {
+      console.log('AuthButtons - mounted:', mounted, 'loading:', loading, 'user:', user);
+    }, [mounted, loading, user]);
   const {
     register,
     handleSubmit,
@@ -71,7 +82,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, redirectT
 
       // Redirect if specified
       if (redirectTo) {
-        window.location.href = redirectTo;
+        history.push(redirectTo);
       }
     } catch (error) {
       // Error is already handled in AuthProvider with toast
