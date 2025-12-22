@@ -241,6 +241,15 @@ export default function AskDocsButton() {
                       </button>
                     ))}
                   </div>
+                  <div className={styles.protipcontainer}>
+                    <div className={styles.protipheader}>
+                      <Sparkles size={16} />
+                      Pro tip
+                    </div>
+                    <p className={styles.protiptext}>
+                      Select any text on the page and click "Ask about selection" to learn more!
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <>

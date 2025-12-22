@@ -32,9 +32,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, redirectTo }) =
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    console.log('AuthButtons - mounted:', mounted, 'loading:', loading, 'user:', user);
-  }, [mounted, loading, user]);
+  // useEffect(() => {
+  //   console.log('AuthButtons - mounted:', mounted, 'loading:', loading, 'user:', user);
+  // }, [mounted, loading, user]);
 
   const {
     register,
