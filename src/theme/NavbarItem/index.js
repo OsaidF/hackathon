@@ -46,7 +46,7 @@ function AuthButtonsClient() {
   return (
     <div style={{ display: 'flex', gap: '0.5rem' }}>
       <Link to="/auth/profile" className="navbar__link">
-        Profile
+        {user.name}
       </Link>
       <button
         className="navbar__link"
